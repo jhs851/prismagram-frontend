@@ -10,7 +10,7 @@ export default () => (
             <>
                 <GlobalStyles />
 
-                <Router isLoggedIn={!false} />
+                <Router isLoggedIn={false} />
             </>
         </ThemeProvider>
     </>
