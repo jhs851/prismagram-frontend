@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import Auth from '../Routes/Auth/index';
 import Feed from '../Routes/Feed';
-import Auth from '../Routes/Auth';
 
 const LoggedInRoutes = () => <><Route exact path="/" component={Feed} /></>;
 
