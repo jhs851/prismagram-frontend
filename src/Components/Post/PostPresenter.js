@@ -9,6 +9,7 @@ const Post = styled.div`
     ${props => props.theme.whiteBox};
     width: 100%;
     max-width: 600px;
+    user-select: none;
     margin-bottom: 25px;
 `;
 
@@ -88,7 +89,7 @@ const Textarea = styled(TextareaAutosize)`
     }
 `;
 
-export default ({ user: { username, avatar }, location, files, isLiked, likeCount, createdAt, newComment, currentItem }) => (
+export default ({ user: { username, avatar }, location, files, isLiked, likeCount, createdAt, newComment, currentItem, toggleLike }) => (
     <Post>
         <Header>
             <Avatar size="sm" url={avatar} />
@@ -107,7 +108,7 @@ export default ({ user: { username, avatar }, location, files, isLiked, likeCoun
 
         <Meta>
             <Buttons>
-                <Button>
+                <Button onClick={toggleLike}>
                     {isLiked ? <HeartFull /> : <HeartEmpty/> }
                 </Button>
                 <Button>

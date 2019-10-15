@@ -2,12 +2,23 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import useInput from '../../Hooks/useInput';
 import PostPresenter from './PostPresenter';
+import { useMutation } from 'react-apollo-hooks';
+import { ADD_COMMENT, TOGGLE_LIKE } from './PostQueries';
 
 const PostContainer = ({ id, user, files, likeCount, isLiked, comments, createdAt, caption, location }) => {
     const [isLikedS, setIsLiked] = useState(isLiked);
     const [likeCountS, setLikeCount] = useState(likeCount);
     const [currentItem, setCurrentItem] = useState(0);
     const comment = useInput('');
+    const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
+        variables: { postId: id }
+    });
+    const [addCommentMutation] = useMutation(ADD_COMMENT, {
+        variables: {
+            postId: id,
+            text: comment.value
+        }
+    });
     const slide = () => {
         const totalFiles = files.length;
 
@@ -18,6 +29,18 @@ const PostContainer = ({ id, user, files, likeCount, isLiked, comments, createdA
         }
     };
     useEffect(slide, [currentItem]);
+
+    const toggleLike = () => {
+        toggleLikeMutation();
+
+        if (isLikedS) {
+            setIsLiked(false);
+            setLikeCount(likeCountS - 1);
+        } else {
+            setIsLiked(true);
+            setLikeCount(likeCountS + 1);
+        }
+    };
 
     return (
         <PostPresenter
@@ -33,6 +56,7 @@ const PostContainer = ({ id, user, files, likeCount, isLiked, comments, createdA
             setIsLiked={setIsLiked}
             setLikeCount={setLikeCount}
             currentItem={currentItem}
+            toggleLike={toggleLike}
         />
     );
 };
