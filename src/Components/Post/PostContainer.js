@@ -42,6 +42,17 @@ const PostContainer = ({ id, user, files, likeCount, isLiked, comments, createdA
         }
     };
 
+    const onKeyUp = e => {
+        const { keyCode } = e;
+
+        if (keyCode === 13) {
+            comment.setValue('');
+            // addCommentMutation();
+        }
+
+        return;
+    };
+
     return (
         <PostPresenter
             user={user}
@@ -57,6 +68,7 @@ const PostContainer = ({ id, user, files, likeCount, isLiked, comments, createdA
             setLikeCount={setLikeCount}
             currentItem={currentItem}
             toggleLike={toggleLike}
+            onKeyUp={onKeyUp}
         />
     );
 };

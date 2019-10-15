@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import TextareaAutosize from 'react-autosize-textarea';
 import FatText from '../FatText';
 import Avatar from '../Avatar';
-import { Comment, HeartEmpty, HeartFull } from '../Icons';
+import { Comment as CommentIcon, HeartEmpty, HeartFull } from '../Icons';
 
 const Post = styled.div`
     ${props => props.theme.whiteBox};
@@ -89,7 +89,30 @@ const Textarea = styled(TextareaAutosize)`
     }
 `;
 
-export default ({ user: { username, avatar }, location, files, isLiked, likeCount, createdAt, newComment, currentItem, toggleLike }) => (
+const Comments = styled.ul`
+    margin-top: 10px;
+`;
+
+const Comment = styled.li`
+    margin-bottom: 7px;
+    span {
+      margin-right: 5px;
+    }
+`;
+
+export default ({
+    user: { username, avatar },
+    location,
+    files,
+    isLiked,
+    likeCount,
+    createdAt,
+    newComment,
+    currentItem,
+    toggleLike,
+    onKeyUp,
+    comments
+}) => (
     <Post>
         <Header>
             <Avatar size="sm" url={avatar} />
@@ -112,15 +135,31 @@ export default ({ user: { username, avatar }, location, files, isLiked, likeCoun
                     {isLiked ? <HeartFull /> : <HeartEmpty/> }
                 </Button>
                 <Button>
-                    <Comment />
+                    <CommentIcon />
                 </Button>
             </Buttons>
             <FatText text={likeCount === 1 ? '1 like' : `${likeCount} likes`} />
+
+            {comments && (
+                <Comments>
+                    {comments.map(comment => (
+                        <Comment key={comment.id}>
+                            <FatText text={comment.user.username} />
+                            {comment.text}
+                        </Comment>
+                    ))}
+                </Comments>
+            )}
+
             <Timestamp>
                 <FatText text={createdAt} />
             </Timestamp>
 
-            <Textarea placeholder="Add a comment..." {...newComment} />
+            <Textarea placeholder="Add a comment..."
+                      value={newComment.value}
+                      onChange={newComment.onChange}
+                      onKeyUp={onKeyUp}
+            />
         </Meta>
     </Post>
 );
