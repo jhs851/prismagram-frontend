@@ -4,6 +4,7 @@ import TextareaAutosize from 'react-autosize-textarea';
 import FatText from '../FatText';
 import Avatar from '../Avatar';
 import { Comment as CommentIcon, HeartEmpty, HeartFull } from '../Icons';
+import Input from '../Input';
 
 const Post = styled.div`
     ${props => props.theme.whiteBox};
@@ -79,11 +80,13 @@ const Timestamp = styled.span`
     border-bottom: ${props => props.theme.lightGreyColor} 1px solid;
 `;
 
-const Textarea = styled(TextareaAutosize)`
+const NewComment = styled(Input)`
     border: none;
     width: 100%;
-    resize: none;
     font-size: 14px;
+    background-color: transparent;
+    color: ${props => props.darkGreyColor};
+    padding: 0;
     &:focus {
       outline: none;
     }
@@ -110,7 +113,7 @@ export default ({
     newComment,
     currentItem,
     toggleLike,
-    onKeyUp,
+    submitNewComment,
     comments
 }) => (
     <Post>
@@ -155,11 +158,13 @@ export default ({
                 <FatText text={createdAt} />
             </Timestamp>
 
-            <Textarea placeholder="Add a comment..."
-                      value={newComment.value}
-                      onChange={newComment.onChange}
-                      onKeyUp={onKeyUp}
-            />
+            <form onSubmit={submitNewComment}>
+                <NewComment
+                    onChange={newComment.onChange}
+                    value={newComment.value}
+                    placeholder="Add a comment..."
+                />
+            </form>
         </Meta>
     </Post>
 );

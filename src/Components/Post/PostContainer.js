@@ -2,14 +2,21 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import useInput from '../../Hooks/useInput';
 import PostPresenter from './PostPresenter';
-import { useMutation } from 'react-apollo-hooks';
+import { useMutation, useQuery } from 'react-apollo-hooks';
 import { ADD_COMMENT, TOGGLE_LIKE } from './PostQueries';
+import { ME } from '../../SharedQueries';
 
 const PostContainer = ({ id, user, files, likeCount, isLiked, comments, createdAt, caption, location }) => {
     const [isLikedS, setIsLiked] = useState(isLiked);
     const [likeCountS, setLikeCount] = useState(likeCount);
     const [currentItem, setCurrentItem] = useState(0);
+    const [commentsS, setComments] = useState(comments);
     const comment = useInput('');
+    const {
+        data: {
+            me: { username }
+        }
+    } = useQuery(ME);
     const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
         variables: { postId: id }
     });
@@ -42,15 +49,19 @@ const PostContainer = ({ id, user, files, likeCount, isLiked, comments, createdA
         }
     };
 
-    const onKeyUp = e => {
-        const { keyCode } = e;
+    const submitNewComment = e => {
+        e.preventDefault();
 
-        if (keyCode === 13) {
-            comment.setValue('');
-            // addCommentMutation();
-        }
+        setComments([...commentsS, {
+            id: Math.floor(Math.random() * commentsS.length) * 100,
+            text: comment.value,
+            user: {
+                username
+            }
+        }]);
 
-        return;
+        comment.setValue('');
+        addCommentMutation();
     };
 
     return (
@@ -59,7 +70,7 @@ const PostContainer = ({ id, user, files, likeCount, isLiked, comments, createdA
             files={files}
             likeCount={likeCountS}
             isLiked={isLikedS}
-            comments={comments}
+            comments={commentsS}
             createdAt={createdAt}
             caption={caption}
             location={location}
@@ -68,7 +79,7 @@ const PostContainer = ({ id, user, files, likeCount, isLiked, comments, createdA
             setLikeCount={setLikeCount}
             currentItem={currentItem}
             toggleLike={toggleLike}
-            onKeyUp={onKeyUp}
+            submitNewComment={submitNewComment}
         />
     );
 };
