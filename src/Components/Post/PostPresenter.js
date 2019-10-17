@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import TextareaAutosize from 'react-autosize-textarea';
 import FatText from '../FatText';
 import Avatar from '../Avatar';
 import { Comment as CommentIcon, HeartEmpty, HeartFull } from '../Icons';
