@@ -5,7 +5,7 @@ import Auth from '../Routes/Auth/index';
 import Feed from '../Routes/Feed';
 import Explore from '../Routes/Explore';
 import Search from '../Routes/Search/index';
-import Profile from '../Routes/Profile';
+import Profile from '../Routes/Profile/index';
 import Post from '../Routes/Post';
 
 const LoggedInRoutes = () =>

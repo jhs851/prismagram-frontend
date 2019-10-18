@@ -55,9 +55,11 @@ const SearchPresenter = ({ term, loading, data }) => {
             ) : (
                 <PostSection>
                     {data.searchPost.map(post =>
-                        <SquarePost likeCount={post.likeCount}
-                              commentCount={post.commentCount}
-                              file={post.files[0]} />
+                        <SquarePost
+                            key={post.id}
+                            likeCount={post.likeCount}
+                            commentCount={post.commentCount}
+                            file={post.files[0]} />
                     )}
                 </PostSection>
             )}
