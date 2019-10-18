@@ -9,7 +9,14 @@ const Wrapper = styled.div`
     height: 50vh;
 `;
 
-const Section = styled.div``;
+const Section = styled.div`
+    margin-bottom: 50px;
+    display: grid;
+    grid-gap: 25px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 160px;
+    grid-auto-rows: 160px;
+`;
 
 const SearchPresenter = ({ term, loading, data }) => {
     if (term === undefined) {
@@ -18,17 +25,18 @@ const SearchPresenter = ({ term, loading, data }) => {
         return <Wrapper><Loader /></Wrapper>;
     } else if (
         data &&
-        (data.searchUser && data.searchUser.length === 0) ||
+        (data.searchUser && data.searchUser.length === 0) &&
         (data.searchPost && data.searchPost.length === 0)
     ) { 
-        return <Wrapper><FatText text="No Users, Photos Found"/></Wrapper>;
+        return <Wrapper><FatText text="Not found Users and Photos"/></Wrapper>;
     }
 
     return (
         <Wrapper>
             <Section>
                 {data.searchUser.map(user =>
-                    <UserCard url={user.url}
+                    <UserCard key={user.id}
+                              url={user.avatar}
                               isFollowing={user.isFollowing}
                               isSelf={user.isSelf}
                               username={user.username}

@@ -10,6 +10,7 @@ export const SEARCH = gql`
             commentCount
         }
         searchUser(term: $term) {
+            id
             avatar
             username
             isFollowing
