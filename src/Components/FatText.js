@@ -6,8 +6,8 @@ const Text = styled.span`
     font-weight: 600;
 `;
 
-const FatText = ({ text }) => (
-    <Text>
+const FatText = ({ text, className }) => (
+    <Text className={className}>
         {text}
     </Text>
 );

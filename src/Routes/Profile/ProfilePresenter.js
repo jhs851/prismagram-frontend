@@ -6,6 +6,7 @@ import Avatar from '../../Components/Avatar';
 import FatText from '../../Components/FatText';
 import FollowButton from '../../Components/FollowButton/index';
 import SquarePost from '../../Components/SquarePost';
+import Button from '../../Components/Button';
 
 const Wrapper = styled.div`
     min-height: 100vh;
@@ -29,6 +30,11 @@ const UsernameRow = styled.div`
 const Username = styled.span`
     font-size: 26px;
     display: block;
+    margin-right: 8px;
+`;
+
+const LogOutButton = styled(Button)`
+    flex: 0 0 40%;
 `;
 
 const Counts = styled.ul`
@@ -53,12 +59,13 @@ const Bio = styled.p`
 
 const Posts = styled.div`
     display: grid;
+    grid-gap: 20px;
     grid-template-columns: repeat(4, 200px);
     grid-template-rows: 200px;
     grid-auto-rows: 200px;
 `;
 
-export default ({ loading, data }) => {
+export default ({ loading, data, logOut }) => {
     if (loading) {
         return <Wrapper><Loader /></Wrapper>
     } else if (! loading && data && data.seeUser) {
@@ -92,7 +99,11 @@ export default ({ loading, data }) => {
                     <HeaderColumn>
                         <UsernameRow>
                             <Username>{username}</Username>{" "}
-                            { ! isSelf && <FollowButton isFollowing={isFollowing} id={id} /> }
+                            {isSelf ? (
+                                <LogOutButton text="Log out" onClick={logOut} />
+                            ) : (
+                                <FollowButton isFollowing={isFollowing} id={id} />
+                            )}
                         </UsernameRow>
 
                         <Counts>
@@ -115,6 +126,7 @@ export default ({ loading, data }) => {
                     {posts && posts.map(post => (
                         <SquarePost
                             key={post.id}
+                            id={post.id}
                             file={post.files[0]}
                             likeCount={post.likeCount}
                             commentCount={post.commentCount}
